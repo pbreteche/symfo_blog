@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Derniers articles{% endblock %}
+
+{% block body %}
+    <h1>Derniers articles</h1>
+    {# en PHP : ! empty(articles) #}
+    {% if articles is not empty %}
+    <ul>
+        {% for article in articles %}
+        <li>{{ article.title }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Pas d'articles</p>
+    {% endif %}
+{% endblock %}
