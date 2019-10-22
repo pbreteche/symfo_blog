@@ -19,6 +19,23 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    /**
+     * @param int $limit
+     *
+     * @return Article[]
+     */
+    public function findLatestPublished(int $limit=10): array
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT a FROM '.Article::class.' a'
+            .' WHERE a.publishedAt IS NOT NULL'
+            .' AND a.publishedAt <= CURRENT_TIME()'
+            .' ORDER BY a.publishedAt DESC'
+        )->setMaxResults($limit)
+        ->getResult();
+    }
+
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */

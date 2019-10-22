@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,7 +14,7 @@ class ArticleController extends AbstractController
      */
     public function index(ArticleRepository $repository)
     {
-        $articles = $repository->findAll();
+        $articles = $repository->findLatestPublished();
 
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
