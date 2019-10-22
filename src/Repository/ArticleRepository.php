@@ -27,7 +27,8 @@ class ArticleRepository extends ServiceEntityRepository
     public function findLatestPublished(int $limit=10): array
     {
         return $this->getEntityManager()->createQuery(
-            'SELECT a FROM '.Article::class.' a'
+            'SELECT a, w FROM '.Article::class.' a'
+            .' JOIN a.writtenBy w'
             .' WHERE a.publishedAt IS NOT NULL'
             .' AND a.publishedAt <= CURRENT_TIME()'
             .' ORDER BY a.publishedAt DESC'

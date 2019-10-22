@@ -31,6 +31,12 @@ class Article
      */
     private $content;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Author", fetch="EAGER")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $writtenBy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +74,18 @@ class Article
     public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getWrittenBy(): ?Author
+    {
+        return $this->writtenBy;
+    }
+
+    public function setWrittenBy(?Author $writtenBy): self
+    {
+        $this->writtenBy = $writtenBy;
 
         return $this;
     }
