@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -18,16 +19,20 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=80)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=80)
      */
     private $title;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\GreaterThanOrEqual(value="today")
      */
     private $publishedAt;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=10)
      */
     private $content;
 
@@ -88,5 +93,13 @@ class Article
         $this->writtenBy = $writtenBy;
 
         return $this;
+    }
+
+    /**
+     * @Assert\IsTrue(message="Il faut plus de contenu que de titre")
+     */
+    public function isContentLongerThanTitle(): bool
+    {
+        return mb_strlen($this->content) > mb_strlen($this->title);
     }
 }
