@@ -7,7 +7,7 @@ use App\Entity\Author;
 use App\Repository\ArticleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -49,7 +49,7 @@ class ArticleController extends AbstractController
                 'label' => 'Titre',
             ])
             ->add('content')
-            ->add('publishedAt', DateTimeType::class, [
+            ->add('publishedAt', DateType::class, [
                 'widget' => 'single_text',
                 'required' => false,
             ])
@@ -75,6 +75,42 @@ class ArticleController extends AbstractController
 
         return $this->render('article/new.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/{id}/edit",
+     *     requirements={"id": "\d+"},
+     *     methods={"GET", "POST"}
+     * )
+     */
+    public function edit(Request $request, Article $article)
+    {
+        $form = $this->createFormBuilder($article)
+            ->add('title', null, [
+                'label' => 'Titre',
+            ])
+            ->add('content')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+
+            $this->addFlash('success', 'L\'article a bien été modifié');
+
+            return $this->redirectToRoute('app_article_show', [
+                'id' => $article->getId(),
+            ]);
+        }
+
+        return $this->render('article/edit.html.twig', [
+            'form' => $form->createView(),
+            'article' => $article,
         ]);
     }
 }

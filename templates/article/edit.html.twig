@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Édition de <em>{{ article.title }}</em></h1>
+
+    {{ form_start(form) }}
+
+    {{ form_errors(form) }}
+    {{ form_rest(form) }}
+
+    <button>Modifier</button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block title %}Édition de {{ article.title }}{% endblock %}
+
