@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,6 +17,12 @@ class Article
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Gedmo\Slug(fields={"title"})
+     */
+    private $slug;
 
     /**
      * @ORM\Column(type="string", length=80)
@@ -45,6 +52,11 @@ class Article
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
     }
 
     public function getTitle(): ?string
