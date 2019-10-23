@@ -26,7 +26,7 @@ class Article
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\GreaterThanOrEqual(value="today")
+     * @Assert\GreaterThanOrEqual(value="today", groups={"new"})
      */
     private $publishedAt;
 

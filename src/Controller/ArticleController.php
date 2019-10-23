@@ -42,7 +42,9 @@ class ArticleController extends AbstractController
     {
         $article = new Article();
 
-        $form = $this->createFormBuilder($article)
+        $form = $this->createFormBuilder($article, [
+            'validation_groups' => ['new', 'Default'],
+        ])
             ->add('title', null, [
                 'label' => 'Titre',
             ])
