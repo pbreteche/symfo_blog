@@ -3,12 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Entity\Author;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -50,15 +47,7 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($article);
-            $em->flush();
-
-            $this->addFlash('success', 'Le nouvel article a bien été créé');
-
-            return $this->redirectToRoute('app_article_show', [
-                'id' => $article->getId(),
-            ]);
+            return $this->persistArticle($article, 'Le nouvel article a bien été créé');
         }
 
         return $this->render('article/new.html.twig', [
@@ -82,20 +71,25 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($article);
-            $em->flush();
-
-            $this->addFlash('success', 'L\'article a bien été modifié');
-
-            return $this->redirectToRoute('app_article_show', [
-                'id' => $article->getId(),
-            ]);
+            return $this->persistArticle($article, 'L\'article a bien été modifié');
         }
 
         return $this->render('article/edit.html.twig', [
             'form' => $form->createView(),
             'article' => $article,
+        ]);
+    }
+
+    private function persistArticle(Article $article, string $message)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($article);
+        $em->flush();
+
+        $this->addFlash('success', $message);
+
+        return $this->redirectToRoute('app_article_show', [
+            'id' => $article->getId(),
         ]);
     }
 }
