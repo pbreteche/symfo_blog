@@ -38,7 +38,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", requirements={"id":"\d+"}, methods="GET")
+     * @Route("/show/{slug}", methods="GET")
      */
     public function show(Article $article)
     {
@@ -71,7 +71,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route(
-     *     "/{id}/edit",
+     *     "/{slug}/edit",
      *     requirements={"id": "\d+"},
      *     methods={"GET", "POST"}
      * )
@@ -103,7 +103,7 @@ class ArticleController extends AbstractController
         $this->addFlash('success', $message);
 
         return $this->redirectToRoute('app_article_show', [
-            'id' => $article->getId(),
+            'slug' => $article->getSlug(),
         ]);
     }
 }
