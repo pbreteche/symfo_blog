@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Author;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,6 +50,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_AUTHOR")
      */
     public function new(Request $request)
     {
