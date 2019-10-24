@@ -25,9 +25,7 @@ class ArticleVoter extends Voter
 
         switch ($attribute) {
             case 'ARTICLE_EDIT':
-                $author = $subject->getWrittenBy();
-                // test $author with $user
-                return true;
+                return $user == $subject->getWrittenBy()->getUser();
         }
 
         return false;
