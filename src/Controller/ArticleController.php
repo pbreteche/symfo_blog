@@ -124,9 +124,11 @@ class ArticleController extends AbstractController
     /**
      * @Route("/search")
      */
-    public function search()
+    public function search(Request $request)
     {
+        $query = $request->query->get('search', '');
         return $this->render('article/search.html.twig', [
+            'query' => $query,
         ]);
     }
 

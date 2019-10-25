@@ -2,6 +2,13 @@
 
 {% block body %}
 <h1>Résultat de recherche</h1>
+<form>
+    <div>
+        <label for="article-search">Recherche</label>
+        <input type="search" name="search" id="article-search" value="{{ query }}">
+    </div>
+    <button>Rechercher</button>
+</form>
 {% endblock %}
 
 {% block title %}Résultat de recherche{% endblock %}
