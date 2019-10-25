@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Author;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,11 +42,29 @@ class ArticleController extends AbstractController
     /**
      * @Route("/show/{slug}", methods="GET")
      */
-    public function show(Article $article)
+    /*
+     * @Cache(
+     *     public=true,
+     *     maxage=600,
+     *     expires="tomorrow",
+     *     etag="article.getContent()",
+     *     lastModified="article.getUpdatedAt()"
+     * )
+     */
+    public function show(Article $article, Request $request)
     {
-        return $this->render('article/show.html.twig', [
+        $response = $this->render('article/show.html.twig', [
             'article' => $article,
         ]);
+
+//        $response->setPublic();
+//        $response->expire(new \DateTime('tomorrow'));
+//        $response->headers->set('ETag', md5($article->getContent()));
+//        $response->setEtag(md5($article->getContent()));
+//
+//        $response->isNotModified($request);
+
+        return $response;
     }
 
     /**
