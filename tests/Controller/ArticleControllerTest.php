@@ -11,8 +11,10 @@ class ArticleControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/search');
-
+        $crawler = $client->request('GET', '/search');
         $this->assertResponseIsSuccessful();
+
+        $title = $crawler->filter('h1')->text();
+        $this->assertContains('Résultat', $title, 'Le titre de la page de recherche doit contenir "Résultat"');
     }
 }
