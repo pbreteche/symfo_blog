@@ -6,6 +6,13 @@
     <h1>Derniers articles</h1>
     {# en PHP : ! empty(articles) #}
     {% if articles is not empty %}
+        <form action="{{ path('app_article_search') }}">
+            <div>
+                <label for="article-search">Recherche</label>
+                <input type="search" name="search" id="article-search">
+            </div>
+            <button>Rechercher</button>
+        </form>
     <ul>
         {% for article in articles %}
         <li>

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Résultat de recherche</h1>
+<form>
+    <div>
+        <label for="article-search">Recherche</label>
+        <input type="search" name="search" id="article-search" value="{{ query }}">
+    </div>
+    <button>Rechercher</button>
+</form>
+<ul>
+    {% for article in articles %}
+        <li>
+            <a href="{{ path('app_article_show', {slug: article.slug}) }}">{{ article.title }}</a> - {{ article.writtenBy.name }}
+            <a href="{{ path('app_article_edit', {slug: article.slug}) }}">Éditer</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+{% block title %}Résultat de recherche{% endblock %}
