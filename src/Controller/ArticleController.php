@@ -121,6 +121,15 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/search")
+     */
+    public function search()
+    {
+        return $this->render('article/search.html.twig', [
+        ]);
+    }
+
     private function persistArticle(Article $article, string $message)
     {
         $em = $this->getDoctrine()->getManager();
