@@ -21,6 +21,8 @@ class ArticleSearcher
 
     public function search(string $query): array
     {
-        return $this->repository->findAll();
+        $terms = explode(' ', $query);
+
+        return $this->repository->findByTermInTitle($terms[0]);
     }
 }
