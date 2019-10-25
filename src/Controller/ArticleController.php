@@ -6,7 +6,7 @@ use App\Entity\Article;
 use App\Entity\Author;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use App\Service\ArticleSearcher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,11 +124,13 @@ class ArticleController extends AbstractController
     /**
      * @Route("/search")
      */
-    public function search(Request $request)
+    public function search(Request $request, ArticleSearcher $searcher)
     {
         $query = $request->query->get('search', '');
+        $articles = $searcher->search($query);
         return $this->render('article/search.html.twig', [
             'query' => $query,
+            'articles' => $articles,
         ]);
     }
 
